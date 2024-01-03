@@ -7,8 +7,7 @@ import lombok.*;
 
 @Data
 @Entity
-@NoArgsConstructor
-@AllArgsConstructor
+
 public class User {
     @Id
     @GeneratedValue

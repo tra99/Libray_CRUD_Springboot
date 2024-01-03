@@ -5,12 +5,10 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.http.ResponseEntity.BodyBuilder;
 import org.springframework.web.bind.annotation.*;
-
-import com.lambdacode.spring.boot.crud.dto.AuthorWithBooksDTO;
 import com.lambdacode.spring.boot.crud.entity.Book;
 import com.lambdacode.spring.boot.crud.service.impl.BookService;
-
 import java.util.List;
+import java.util.Set;
 
 @RestController
 @RequestMapping("/api/books")
@@ -35,7 +33,8 @@ public class BookController {
     }
 
     @PostMapping("/create")
-    public ResponseEntity<String> createBook(@RequestBody Book book) {
+    public ResponseEntity<String> createBook(@RequestBody Book book,@RequestBody Set<Long> authorIds) {
+        
         Book createdBook = bookService.createBook(book);
         if (createdBook != null) {
             return ResponseEntity.status(HttpStatus.CREATED).body("Book created successfully!");
@@ -43,7 +42,6 @@ public class BookController {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Failed to create book");
         }
     }
-
 
     @PutMapping("/update/{id}")
     public ResponseEntity<String> updateBook(@PathVariable Long id, @RequestBody Book book) {
@@ -85,11 +83,11 @@ public class BookController {
         }
     }
 
-    @GetMapping("/filter-by-author")
-    public ResponseEntity<List<Book>> filterBooksByAuthor(@RequestParam("authorId") Long authorId) {
-        List<Book> filteredBooks = bookService.getBooksByAuthorId(authorId);
-        if (!filteredBooks.isEmpty()) {
-            return ResponseEntity.ok(filteredBooks);
+    @GetMapping("/by-author/{authorId}")
+    public ResponseEntity<List<Book>> getBooksByAuthor(@PathVariable Long authorId) {
+        List<Book> books = bookService.getBooksByAuthorId(authorId);
+        if (!books.isEmpty()) {
+            return ResponseEntity.ok(books);
         } else {
             return ResponseEntity.notFound().build();
         }

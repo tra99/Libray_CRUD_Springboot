@@ -1,9 +1,12 @@
 package com.lambdacode.spring.boot.crud.entity;
 
+import java.util.Set;
+
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.ManyToMany;
 
 @Entity
 public class Author {
@@ -24,4 +27,6 @@ public class Author {
     public void setName(String name) {
         this.name = name;
     }
+    @ManyToMany(mappedBy = "authors")
+    private Set<Book> books;
 }

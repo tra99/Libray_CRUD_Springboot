@@ -31,11 +31,10 @@ public class AuthorService {
 
         if (existingAuthor != null) {
             existingAuthor.setName(updatedAuthor.getName());
-            // Update other fields if needed
             return authorRepository.save(existingAuthor);
         }
 
-        return null; // Handle if author is not found
+        return null;
     }
 
     public boolean deleteAuthor(Long authorId) {
@@ -43,10 +42,10 @@ public class AuthorService {
 
         if (existingAuthor != null) {
             authorRepository.delete(existingAuthor);
-            return true; // Deletion successful
+            return true; 
         }
 
-        return false; // Handle if author is not found or deletion fails
+        return false; 
     }
 }
 

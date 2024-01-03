@@ -2,10 +2,8 @@ package com.lambdacode.spring.boot.crud.service.impl;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
 import com.lambdacode.spring.boot.crud.entity.Book;
 import com.lambdacode.spring.boot.crud.repository.BookRepository;
-
 import java.util.List;
 
 @Service
@@ -48,5 +46,18 @@ public class BookService {
 
         return false;
     }
+
+    public List<Book> getBooksByCatalogName(String catalogName) {
+        return bookRepository.findByCatalogName(catalogName);
+    }
+
+    public List<Book> searchBooksByName(String searchTerm) {
+        return bookRepository.findByTitleContaining(searchTerm);
+    }
+
+    public List<Book> getBooksByAuthorId(Long authorId) {
+        return bookRepository.findByAuthorId(authorId);
+    }
+    
 }
 

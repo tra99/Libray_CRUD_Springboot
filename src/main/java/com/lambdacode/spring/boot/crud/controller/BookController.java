@@ -6,6 +6,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.http.ResponseEntity.BodyBuilder;
 import org.springframework.web.bind.annotation.*;
 
+import com.lambdacode.spring.boot.crud.dto.AuthorWithBooksDTO;
 import com.lambdacode.spring.boot.crud.entity.Book;
 import com.lambdacode.spring.boot.crud.service.impl.BookService;
 
@@ -62,6 +63,36 @@ public class BookController {
         } else {
             return ((BodyBuilder) ResponseEntity.notFound()).body("Book with ID " + id + " not found or deletion failed.");
         }
-    }    
+    }  
+    // search book by title
+    @GetMapping("/search")
+    public ResponseEntity<List<Book>> searchBooksByName(@RequestParam("title") String title) {
+        List<Book> foundBooks = bookService.searchBooksByName(title);
+        if (!foundBooks.isEmpty()) {
+            return ResponseEntity.ok(foundBooks);
+        } else {
+            return ResponseEntity.notFound().build();
+        }
+    }
+    // filter book base on catalog=user
+    @GetMapping("/filter-by-catalog")
+    public ResponseEntity<List<Book>> filterBooksByCatalog(@RequestParam("catalogName") String catalogName) {
+        List<Book> filteredBooks = bookService.getBooksByCatalogName(catalogName);
+        if (!filteredBooks.isEmpty()) {
+            return ResponseEntity.ok(filteredBooks);
+        } else {
+            return ResponseEntity.notFound().build();
+        }
+    }
+
+    @GetMapping("/filter-by-author")
+    public ResponseEntity<List<Book>> filterBooksByAuthor(@RequestParam("authorId") Long authorId) {
+        List<Book> filteredBooks = bookService.getBooksByAuthorId(authorId);
+        if (!filteredBooks.isEmpty()) {
+            return ResponseEntity.ok(filteredBooks);
+        } else {
+            return ResponseEntity.notFound().build();
+        }
+    }
 }
 
